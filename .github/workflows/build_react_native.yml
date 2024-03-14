@@ -48,7 +48,7 @@ jobs:
       - name: Deploy
         uses: mperez06/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.EXPO_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
       # - name: Deploy to Github Pages
       #   id: deployment
