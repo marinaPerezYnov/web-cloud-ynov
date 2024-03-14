@@ -11,9 +11,9 @@ jobs:
       matrix:
         node-version: [18.x]
     steps: 
-      - uses: actions/checkout@v2​
-      - name: Use Node.js ${{ matrix.node-version }}​
-        uses: actions/setup-node@v2​
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
       - name: npm install
@@ -27,18 +27,18 @@ jobs:
         run: eas build --platform android --non-interactive --no-wait
       - name: Build web app
         run: npm run predeploy
-      - name: Setup Pages​
+      - name: Setup Pages
         id: _01
         uses: actions/configure-pages@v3
-      - name: Upload artifact​
-        uses: actions/upload-pages-artifact@v2​
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
         with:
-          path: dist​
+          path: dist
           if-no-files-found: error
   deploy:
     environment:
       name: github-pages
-      url: ${{steps.deployment.outputs.page_url}}​
+      url: ${{steps.deployment.outputs.page_url}}
     runs-on: ubuntu-latest
     permissions:
       pages: write      # to deploy to Pages​
