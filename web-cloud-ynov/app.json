@@ -1,7 +1,7 @@
 {
   "expo": {
-    "experiments" : {
-      "baseUrl" : "/web-cloud-ynov"
+    "experiments": {
+      "baseUrl": "/web-cloud-ynov"
     },
     "name": "web-cloud-ynov",
     "slug": "web-cloud-ynov",
@@ -18,16 +18,23 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.mperez06.webcloudynov"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.mperez06.webcloudynov"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "bdce5d70-507e-4e69-8544-de40480e2484"
+      }
     }
   }
 }

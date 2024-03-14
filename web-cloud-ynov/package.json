@@ -8,15 +8,19 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "deploy": "gh-pages -t -d dist",
-    "predeploy": "expo export -p web"
+    "predeploy": "expo export -p web",
+    "test": "react-scripts test  --coverage --watchAll=false"
   },
   "dependencies": {
     "@expo/metro-runtime": "~3.1.3",
+    "add": "^2.0.6",
+    "eas-cli": "^7.5.0",
     "expo": "~50.0.13",
     "expo-status-bar": "~1.11.1",
+    "global": "^4.4.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-native": "0.73.5",
+    "react-native": "0.73.4",
     "react-native-web": "~0.19.6"
   },
   "devDependencies": {
