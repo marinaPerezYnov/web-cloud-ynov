@@ -28,7 +28,7 @@ jobs:
       - name: Build web app
         run: npm run predeploy
       - name: Setup Pages​
-        id: _pages​
+        id: _01
         uses: actions/configure-pages@v3
       - name: Upload artifact​
         uses: actions/upload-pages-artifact@v2​
