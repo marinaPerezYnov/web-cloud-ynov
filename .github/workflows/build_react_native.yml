@@ -33,8 +33,8 @@ jobs:
         run: cd web-cloud-ynov && npm run predeploy
       # - run: cd web-cloud-ynov 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
         run: cd web-cloud-ynov
+        uses: actions/upload-pages-artifact@v2
         with:
           path: dist
           if-no-files-found: error
