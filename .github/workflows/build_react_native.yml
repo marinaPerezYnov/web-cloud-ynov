@@ -34,7 +34,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          path: dist
+          path: web-cloud-ynov/dist
           if-no-files-found: error
   # Deploy job
   deploy:
