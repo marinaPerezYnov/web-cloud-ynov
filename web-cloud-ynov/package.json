@@ -19,6 +19,7 @@
     "eas-cli": "^7.5.0",
     "expo": "~50.0.13",
     "expo-status-bar": "~1.11.1",
+    "firebase": "^10.9.0",
     "global": "^4.4.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
