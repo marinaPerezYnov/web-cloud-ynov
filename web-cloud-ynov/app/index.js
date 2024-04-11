@@ -5,10 +5,10 @@ import React from "react";
 import { StyleSheet, Text, View, TextInput, Button } from "react-native";
 
 /* COMPONENTS */
-import { signin, signup } from "./auth_signup_password";
-import { signinWithMobile } from "./auth_mobile";
-import { signInWithGithub } from "./auth_github_signin_popup";
-import { verifyCode } from "./auth_mobile";
+import { signin, signup } from "./../auth_signup_password";
+import { signinWithMobile } from "./../auth_mobile";
+import { signInWithGithub } from "./../auth_github_signin_popup";
+import { verifyCode } from "./../auth_mobile";
 
 export default function App() {
   const [email, onChangeEmail] = React.useState("");

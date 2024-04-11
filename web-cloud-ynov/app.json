@@ -4,6 +4,7 @@
       "baseUrl": "/web-cloud-ynov"
     },
     "name": "web-cloud-ynov",
+    "scheme": "web-cloud-ynov",
     "slug": "web-cloud-ynov",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -29,7 +30,9 @@
       "package": "com.mperez06.webcloudynov"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro",
+      "output": "static"
     },
     "extra": {
       "eas": {
