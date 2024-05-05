@@ -1,172 +1,58 @@
 /* REACT */
-import React from "react";
-
-/* EXPO */
-import { StyleSheet, Text, View, TextInput, Button } from "react-native";
-
-/* COMPONENTS */
-import { signin, signup } from "./../auth_signup_password";
-import { signinWithMobile } from "./../auth_mobile";
-import { signInWithGithub } from "./../auth_github_signin_popup";
-import { verifyCode } from "./../auth_mobile";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, Text, View, Button } from "react-native";
+import { Link } from "expo-router";
+import { router } from "expo-router";
+import { getPosts } from "../firebase/get_posts_data";
+import { getComments } from "../firebase/get_comments_data";
 
 export default function App() {
-  const [email, onChangeEmail] = React.useState("");
-  const [password, onChangePassword] = React.useState("");
+  const [posts, setPosts] = useState([]);
+  const [comments, setComments] = useState([]);
 
-  //Regex pour email
-  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+  useEffect(() => {
+    getPosts().then((data) => {
+      setPosts(data);
+    });
 
-  //Regex pour password
-  const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
+    getComments().then((data) => {
+      setComments(data);
+    });
+  }, []);
 
-  const [hasAccount, setHasAccount] = React.useState(false);
-
-  const [isAuthByPhone, setIsAuthByPhone] = React.useState(false);
-
-  const [phoneNumber, onChangePhoneNumber] = React.useState("");
-
-  const [isAuthByGithub, setIsAuthByGithub] = React.useState(false);
-
-  const [code, setCode] = React.useState("");
   return (
-    <View style={styles.container}>
-      <View
-        style={{
-          width: "15%",
+    <View style={styles.box}>
+      <Text style={styles.title}>Home</Text>
+      <Button
+        title="Créer un nouveau post"
+        color="#500c5e"
+        accessibilityLabel="Créer un nouveau post"
+        onPress={() => {
+          return router.navigate("/addpost");
         }}
-      >
-        <Button
-          onPress={() => {
-            setIsAuthByPhone(false);
-            setIsAuthByGithub(false);
-          }}
-          title="By email"
-          color="#841584"
-          margin="15px"
-          accessibilityLabel="By email"
-        />
-        <Button
-          onPress={() => {
-            signInWithGithub();
-          }}
-          title="By Github"
-          color="#841584"
-          accessibilityLabel="By Github"
-          style={{ margin: "15px" }}
-        />
-        <Button
-          onPress={() => {
-            setIsAuthByPhone(true);
-            setIsAuthByGithub(false);
-          }}
-          title="By phone number"
-          color="#841584"
-          accessibilityLabel="By phone number"
-          style={{ margin: "15px" }}
-        />
-      </View>
-      {isAuthByPhone === false && isAuthByGithub === false ? (
-        <View>
-          <Text>Email</Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={onChangeEmail}
-            value={email}
-            placeholder="Email"
-          />
-          <Text>Password</Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={onChangePassword}
-            value={password}
-            secureTextEntry={true}
-            placeholder="Password"
-          />
-          {hasAccount ? (
-            <View>
-              <Button
-                onPress={() => {
-                  if (passwordRegex.test(password) && emailRegex.test(email)) {
-                    signup(email, password);
-                  } else {
-                    alert("Email or password not valid");
-                  }
-                }}
-                title="Sign Up"
-                color="#841584"
-                accessibilityLabel="Sign Up"
-                style={{ marginBottom: 10 }}
-              />
-              <Button
-                onPress={() => setHasAccount(false)}
-                title="Already have an account?"
-                color="#841584"
-                accessibilityLabel="Already have an account?"
-              />
+      />
+      {posts.map((post) => {
+        return (
+          <Link key={post.id} href={`/posts/${post.id}`}>
+            <View key={post.id} style={styles.containerPostsAndComment}>
+              <View style={styles.boxPost}>
+                <Text style={styles.subtitle}>Post</Text>
+                <Text>
+                  <span style={styles.span}>Créé par :</span> {post.createdBy}
+                </Text>
+                <Text>
+                  <span style={styles.span}>Titre : </span> <br />
+                  {post.title}
+                </Text>
+                <Text>
+                  <span style={styles.span}>Contenu :</span> <br />
+                  {post.text}
+                </Text>
+              </View>
             </View>
-          ) : (
-            <View>
-              <Button
-                onPress={() => {
-                  if (emailRegex.test(email) && passwordRegex.test(password)) {
-                    signin({ email, password });
-                  } else {
-                    alert("Email or password not valid");
-                  }
-                }}
-                title="Sign In"
-                color="#841584"
-                accessibilityLabel="Sign In"
-                style={{ marginBottom: 10 }}
-              />
-              <Button
-                onPress={() => setHasAccount(true)}
-                title="Create Account"
-                color="#841584"
-                accessibilityLabel="Create Account"
-              />
-            </View>
-          )}
-        </View>
-      ) : (
-        <View>
-          <div id="recaptcha-container"></div>
-          <Text>By phone number</Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={onChangePhoneNumber}
-            value={phoneNumber}
-            placeholder="Numéro de téléphone"
-          ></TextInput>
-          {/* Bouton pour s'authentifier par téléphone */}
-          <Button
-            onPress={() => {
-              signinWithMobile(phoneNumber);
-            }}
-            title="Sign In"
-            color="#841584"
-            accessibilityLabel="Sign In"
-            style={{ marginBottom: 10 }}
-          />
-          <TextInput
-            style={styles.input}
-            onChangeText={setCode}
-            value={code}
-            placeholder="Code"
-          ></TextInput>
-          {/* Bouton pour vérifier le code */}
-          <Button
-            onPress={() => {
-              verifyCode(code);
-            }}
-            title="Verify code"
-            color="#841584"
-            accessibilityLabel="Verify code"
-            style={{ marginBottom: 10 }}
-          />
-        </View>
-      )}
+          </Link>
+        );
+      })}
     </View>
   );
 }
@@ -175,14 +61,44 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: "normal",
+    width: "20%",
+    justifyContent: "space-evenly",
+    margin: "auto",
   },
-  input: {
-    height: 40,
-    width: 200,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
+  box: {
+    backgroundColor: "#e0b0ff",
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100%",
+  },
+  span: {
+    fontWeight: "bold",
+  },
+  title: {
+    textAlign: "center",
+    textTransform: "uppercase",
+    marginBottom: "15%",
+    fontWeight: "bold",
+    fontSize: "larger",
+  },
+  containerPostsAndComment: {
+    border: "3px solid #128812",
+    backgroundColor: "white",
+    padding: "10%",
+    margin: "5%",
+  },
+  subtitle: {
+    textAlign: "center",
+    textTransform: "uppercase",
+    marginBottom: "5%",
+    fontWeight: "bold",
+    fontSize: "smaller",
+  },
+  boxPost: {
+    border: "1px solid grey",
+    padding: "10%",
+    marginTop: "5%",
   },
 });
